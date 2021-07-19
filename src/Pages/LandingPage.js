@@ -1,65 +1,58 @@
 import React, { useEffect, useState } from 'react';
 import LoginModal from '../components/LoginModal';
-import NaviBar from '../components/NaviBar'
 import Footer from '../components/Footer'
-import styled from 'styled-components';
-import landingImg from '../img/imgTest.png'
-import SettingModal from '../components/SettingModal/SettingModal'
+import styled, {createGlobalStyle} from 'styled-components';
+import devilLanding from '../img/devilLanding.png'
 import { useHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { actionCreators } from '../store';
-import font from '../font.css'
+import star from "../img/main.jpg"
+
+const Global = createGlobalStyle`
+    body {
+        height: 100%;
+        margin: 0;
+        background: no-repeat url(${star});
+        background-size: cover; 
+    }
+    html {
+        height: 100%;
+    }
+   
+`;
 
 const Landing1 = styled.div`
-    width: 100vw;
-    height: 100vh;
-    
-    @media screen and (max-width: 780px) {
-        display: flex;
-        flex-direction: column;
-    }
-`
-
-const Landing2 = styled.div`
-    background-color: pink;
-    width: 100vw;
-    height: 100vh;
-`
-
-const Landing3 = styled.div`
-    background-color: white;
-    width: 100vw;
-    height: 100vh;
     display: flex;
+    flex-direction: column;
+    postition: relative;
+    top: 20px;
+    margin: 0;
+    width: 100vw;
+    min-height: 100%;
+    
 `
 
 const Title = styled.div`
     position: center;
-    margin-top: 20px;
+    padding-top: 50px;
     font-size: 40px;
     font-family: 'CookieRunOTF-Black';
     text-align: center;
-    color: pink;
+    color: #BF78E4;
     text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
-
-    @media screen and (max-width: 780px) {
-        flex-direction: column;
-    }
 `
 
 const Img = styled.img`
     position: relative;
-    top: 50px;
-    left: 50px;
-    width: 45%;
-    height: auto;
+    top: 100px;
+    right: 40px;
+    width: 40%;
+    height: 450px;
 
-    @media screen and (max-width: 780px) {
-        display: block;
-        top: 50px;
+    @media screen and (max-width: 600px) {
+        top: -40px;
         left: 0px;
-        margin-left: auto;
-        margin-right: auto;
+        height: 200px;
         width: 50%;
     }
 `
@@ -67,18 +60,17 @@ const Img = styled.img`
 const IntroTitle = styled.div`
     position: relative;
     top: 75px;
-    left: 100px;
 
     font-family: 'CookieRun-Regular';
     font-size: 60px;
     line-height: 75px;
     text-align: right;
 
-    color: pink;
+    color: #BF78E4;
     text-shadow: -3.5px 0 black, 0 3.5px black, 3.5px 0 black, 0 -3.5px black;
 
-    @media screen and (max-width: 780px) {
-        top: 75px;
+    @media screen and (max-width: 600px) {
+        top: 0;
         left: 0px;
         font-size: 30px;
         line-height: 35px;
@@ -89,7 +81,6 @@ const IntroTitle = styled.div`
 const IntroSubTitle = styled.div`
     position: relative;
     top: 125px;
-    left: 100px;
     font-family: 'CookieRun-Regular';
     font-size: 25px;
     line-height: 40px;
@@ -97,9 +88,10 @@ const IntroSubTitle = styled.div`
     color: white;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 
-    @media screen and (max-width: 780px) {
-        top: 100px;
+    @media screen and (max-width: 600px) {
+        top: 30px;
         left: 0px;
+        width: 100%;
         font-size: 15px;
         line-height: 20px;
         text-align: center;
@@ -107,19 +99,19 @@ const IntroSubTitle = styled.div`
 `
 
 const B = styled.b`
-    color: pink;
+    color: #BF78E4;
 `
 
 const NavBtn = styled.div`
-    position: relative;
-    top: 200px;
-    left: 350px;
     display: flex;
+    justify-content: flex-end;
+    margin-top: 150px;
+    margin-bottom: 0px;
 
-    @media screen and (max-width: 780px) {
-        top: 125px;
-        left: 50px;
-        text-align: center;
+    @media screen and (max-width: 600px) {
+        justify-content: center;
+        margin-bottom: 30px;
+        margin-top: 40px;
     }
 `
 
@@ -127,8 +119,8 @@ const LoginModalBtn1 = styled.button`
     margin-right: 20px;
     border-radius: 25px;
     background-color: white;
-    border-color: pink;
-    color: pink;
+    border-color: #BF78E4;
+    color: #BF78E4;
     cursor: pointer;
     width: 150px;
     height: 50px;
@@ -140,10 +132,10 @@ const LoginModalBtn1 = styled.button`
     
     &:hover {
         color: white;
-        background-color: pink;
+        background-color: #BF78E4;
     }
 
-    @media screen and (max-width: 780px) {
+    @media screen and (max-width: 600px) {
         width: 100px;
         height: 40px;
     }
@@ -152,8 +144,8 @@ const LoginModalBtn1 = styled.button`
 const LoginModalBtn2 = styled.button`
     border-radius: 25px;
     background-color: white;
-    border-color: pink;
-    color: pink;
+    border-color: #BF78E4;
+    color: #BF78E4;
     cursor: pointer;
     width: 150px;
     height: 50px;
@@ -164,10 +156,10 @@ const LoginModalBtn2 = styled.button`
     
     &:hover {
         color: white;
-        background-color: pink;
+        background-color: #BF78E4;
     }
 
-    @media screen and (max-width: 780px) {
+    @media screen and (max-width: 600px) {
         width: 100px;
         height: 40px;
     }
@@ -175,15 +167,27 @@ const LoginModalBtn2 = styled.button`
 
 const Flex = styled.div `
     display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 600px;
+    justify-content: center;
+    align-items: center;
 
-    @media screen and (max-width: 780px) {
+    @media screen and (max-width: 600px) {
         flex-direction: column;
     }
 `
 
+const Foot = styled.footer`
+position: absolute;
+bottom: 0;
+left: 0;
+right: 0;
+`;
+
+
 const LandingPage = ({resetStore}) => {
     const [login, setLogin] = useState(false)
-    const [trialLogin, setTrialLogin] = useState(false)
     const history = useHistory()
 
     useEffect(() => {
@@ -197,19 +201,19 @@ const LandingPage = ({resetStore}) => {
     }
 
     const handleSettingLoginModal = () => {
-        // setTrialLogin(!trialLogin)
         history.push('/mymy')
     }
 
     return (
         <div>
+            <Global/>
             <Landing1>
                     <Title>DieAlmond</Title>
 
                 
 
                 <Flex>
-                    <Img src={landingImg}></Img>   
+                    <Img src={devilLanding}></Img>   
                     <div>
                         <IntroTitle>
                             죽음은 지금 이 순간에도 
@@ -227,7 +231,6 @@ const LandingPage = ({resetStore}) => {
                             <br/>
                             <B>지금 바로 남은 수명을 확인해보세요!</B>
                         </IntroSubTitle>
-
                         <NavBtn>
                             <LoginModalBtn1 onClick={handleLoginModal}>회원가입 / <br/>로그인</LoginModalBtn1>
                                 {login === false ?
@@ -235,25 +238,11 @@ const LandingPage = ({resetStore}) => {
                                     <LoginModal handleLoginModal={handleLoginModal}/>
                                 }
                                 <LoginModalBtn2 onClick={handleSettingLoginModal}>비회원</LoginModalBtn2>
-                                {/* {trialLogin === false ?
-                                    null :
-                                    <SettingModal />
-                                } */}
-                        </NavBtn>
-                    </div> 
+                            </NavBtn>
+                   </div>
                 </Flex>
+                <Foot><Footer/></Foot>               
             </Landing1>
-
-
-            <Landing2>
-                랜딩페이지2
-            </Landing2>
-
-            <Landing3>
-                랜딩페이지3
-            </Landing3>
-
-            <Footer />
         </div>
     );
 };

@@ -1,16 +1,18 @@
-import React,{useState} from 'react';
-import axios from 'axios';
-import {connect} from 'react-redux';
+import React from 'react';
 import { useHistory } from 'react-router';
 import styled from 'styled-components';
 
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
 const ShowRandom = styled.div`
-    max-width: 15rem;
+    width:100%;
     line-height: 1.8rem;
     padding: 2px;
-    background-color: pink;
+    background-color: #BF78E4;
     color: white;
-    text-align: center;
     margin-bottom: 10px;
     border-radius: 10px;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
@@ -18,10 +20,11 @@ const ShowRandom = styled.div`
 
 const BucketAdd = styled.button`
     margin-right: 20px;
+    justify-content: center;
     border-radius: 4px;
     background-color: white;
-    border: outset 4px pink;
-    color: pink;
+    border: outset 4px #BF78E4;
+    color: #BF78E4;
     cursor: pointer;
     width: 15rem;
     height: 50px;
@@ -33,25 +36,29 @@ const BucketAdd = styled.button`
     &:hover {
         border: inset 4px white;
         color: white;
-        background-color: pink;
+        background-color: #BF78E4;
+    }
+
+    @media only screen and (max-width: 600px) {
+        margin: 0 auto;
+    }
+
+    @media only screen and (max-width: 600px) {
+        margin: 0 auto;
     }
 `
 
+const Div = styled.div`
+    justify-content: center;
+    width: 15rem;
+
+@media only screen and (max-width: 600px) {
+    margin: 0 auto;
+}
+`;
+
 const BucketLists = ({userInfo}) => {
     const history = useHistory();
-
-    const showRandomList = (arr) => {
-        let result = []
-        let index = 0
-        let copyArr = arr
-        for(let i=0; i<6; i++) {
-            index = Math.floor(Math.random()*copyArr.length)
-            result.push(copyArr[index])
-            copyArr.splice(index, index+1)
-        }
-        return result;
-    }
-
     const onClick = () => {
         if(userInfo.email){
             history.push('/bucket')
@@ -61,17 +68,17 @@ const BucketLists = ({userInfo}) => {
     }
 
     return (
-        <div>
+        <Container>
             <br/>
                 {userInfo.list === undefined || userInfo.list.length === 0 ? 
-                    <div></div>
+                    null
                     :
-                    <div>
-                        {showRandomList(userInfo.list.filter(e => e.isChecked === false).map(e => <ShowRandom key={e.id}>{e.bucketName}</ShowRandom>))}
-                    </div>
+                    <Div>
+                        {userInfo.list.filter(e => e.isChecked === false).map(e => <ShowRandom key={e.id}>{e.bucketName}</ShowRandom>).slice(0, 5)}
+                    </Div>
                 }
             <BucketAdd onClick={onClick}>버킷리스트 추가</BucketAdd>
-        </div>
+        </Container>
     );
 };
 

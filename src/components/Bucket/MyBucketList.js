@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import font from '../../font.css'
 
@@ -19,7 +19,7 @@ const MyBucketList = (props) => {
         border-radius: 15px;
         cursor: pointer;
         color: black;
-        border: 2.5px solid pink;
+        border: 2.5px solid #BF78E4;
 
         :hover {
         transform: scale(1.05);
@@ -28,9 +28,11 @@ const MyBucketList = (props) => {
         }
 
         @media only screen and (max-width: 600px) {
+            width: 350px;
             transform: translateY(15px);
-            margin-top: 30px;            
-            border: 1px solid pink;
+            margin-top: 30px;   
+            margin-left: 130px;         
+            border: 1px solid #BF78E4;
             transition: all 0.5s ease-in;
 
             :hover {
@@ -44,9 +46,9 @@ const MyBucketList = (props) => {
             border-radius: 0.25rem;
             font-size: 1rem;
             line-height: 1.5;
-            border: 1px solid pink;
+            border: 1px solid #BF78E4;
             background-color: white;
-            color: pink;
+            color: #BF78E4;
             border-radius: 20px;
             font-family: 'CookieRun-Regular';
             -webkit-transition: all 1s cubic-bezier(0.390, 0.500, 0.150, 1.360);
@@ -59,7 +61,7 @@ const MyBucketList = (props) => {
         display:flex;
         height:30px;
         margin: 5px;
-        color: pink;
+        color: #BF78E4;
         align-items: center;
         justify-content: space-between;
         text-decoration: ${isDone === true ? 'line-through' : 'none'}
@@ -69,6 +71,8 @@ const MyBucketList = (props) => {
         margin: 10px;
         width: 25px; /*Desired width*/
         height: 25px; /*Desired height*/
+
+        color: #BF78E4;
     `
 
     const DeleteBucketList = () => {
@@ -87,7 +91,7 @@ const MyBucketList = (props) => {
                 setPropsId({ id: 0 })
                 props.renderDelete()
             })
-                .catch(e => alert("fucking..."))
+                .catch(e => alert("삭제 실패했습니다."))
         }
     }
 
@@ -95,7 +99,6 @@ const MyBucketList = (props) => {
         axios.patch(`http://localhost:80/bucket/check`, {
             id: props.id,
             isChecked: !isDone
-            // 백으로 보내줄때 id값도 보내주기?? 아이디랑 ischecked
         }, {
             headers: {
                 "sns": "google",

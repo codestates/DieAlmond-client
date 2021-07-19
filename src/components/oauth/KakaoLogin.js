@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -31,11 +30,9 @@ const KakaoLogin = ({addUserInfo}) => {
 
     const KakaoLog = () => {
         setKakaoIsLogin(!kakaoIslogin)
-                console.log(kakaoIslogin);
         Kakao.Auth.login({
             scope: 'profile_nickname, account_email, gender',
             success: function (authObj) {
-                console.log(authObj.access_token);
                 
                 setKakaoToken(authObj.access_token)
                 addUserInfo({kakao: authObj.access_token})
@@ -45,7 +42,6 @@ const KakaoLogin = ({addUserInfo}) => {
                     success: res => {
                         const Kakao_account = res.kakao_account
                         setData(Kakao_account)
-                        console.log(Kakao_account);
                         history.push('/main')
                     }
                 })
@@ -57,9 +53,7 @@ const KakaoLogin = ({addUserInfo}) => {
         // 로그인할때 상태에 토큰하나 만들어줘서 그걸 props로 내려받아오기
         if (window.Kakao.Auth.getAccessToken()) {
             // 로그인할때 받아온 토큰값이 있으면
-            console.log("카카오 인증 엑세스 토큰 존재", window.Kakao.Auth.getAccessToken());
             window.Kakao.Auth.logout(() => {
-                console.log("카카오 로그아웃 완료", window.Kakao.Auth.getAccessToken());
                 addUserInfo({kakao: null})
                 alert('카카오 로그아웃')
                 history.push('/')

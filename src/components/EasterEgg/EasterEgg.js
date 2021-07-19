@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import styled, {css, keyframes} from 'styled-components';
-import almond from './img/almond.gif'
+import styled, { keyframes} from 'styled-components';
 import devil from './img/devil.png'
 
 const EasterEgg = () => {
@@ -47,47 +46,24 @@ const EasterEgg = () => {
         }
     `
 
-    // Dummy data
-    // const life = 33;
-
-    // let Almond = styled.div`
-    //     width:50px;
-    //     height:70px;
-    //     background-image:url(${almond});
-    //     background-size:50px 70px;
-    //     position:relative;
-    //     top:50%;
-    //     left:${life - 5}%;
-    //     animation: ${jumpUp} 0.5s infinite linear;
-    // `
-
     const Devil = styled.div`
-        width: 50px;
-        height: 50px;
+        width: 200px;
+        height: 200px;
         position: relative;
-        top: 72.5%;
+        top: 60%;
         background-image: url(${devil});
-        background-size: 50px 50px;
-        animation: ${block} 5s infinite linear;
+        background-size: 200px 200px;
+        animation: ${block} 1s infinite linear;
+
+        @media only screen and (max-width: 600px) {
+            width: 100px;
+            height: 100px;
+            top: 72.5%;
+            background-size: 100px 100px;
+            animation: ${block} 1.2s infinite linear;
+        }
     `
 
-    // const jump = () => {
-    //     Almond = styled.div`
-    //         width:500px;
-    //         height:700px;
-    //         background-image:url(${almond});
-    //         background-size:50px 70px;
-    //         position:fixed;
-    //         top:50%;
-    //         left:${life - 3}%;
-    //         animation: ${jumpUp} 0.5s infinite linear;
-    //     `
-    //     console.log('쩜프')
-    // }
-
-    // document.addEventListener("keydown", () => {
-    //     jump()
-    // });
 
     const [start, setStart] = useState(false);
 

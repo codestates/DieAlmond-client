@@ -1,10 +1,5 @@
-// [React Hooks] 
-// useState : Manage State)
-// useEffect : component needs to do something after render
 import React, { useState, useEffect } from 'react'
-import { connect } from 'react-redux';
-import styled, { keyframes } from 'styled-components';
-import font from '../../font.css'
+import styled from 'styled-components';
 
 const ReverseTimer = styled.div`
     display: flex;
@@ -12,37 +7,12 @@ const ReverseTimer = styled.div`
     align-items: center;
 `;
 
-// const WiseBiggerSmaller = keyframes`
-// from {
-//     width: 20px;
-//     height: 20px;
-// }
-// to {
-//     width: 200px;
-//     height: 200px;
-// }
-// `;
-
-// const Wiseman = styled.div`
-//        margin: 30px auto;
-//        width: 20px;
-//        height: 20px;
-//        background-color: orange;
-//        animation-name: ${WiseBiggerSmaller};
-//        animation-duration: 1.5s;
-//        animation-timing-function: linear;
-//        animation-delay: 2s;
-//        animation-iteration-count: 2;
-//        animation-direction: alternate;
-//        animation-fill-mode: none;
-//        animation-play-state: running;
-// `;
-
-const Wisemans = styled.div`
+const RestLife = styled.div`
     font-size: 50px;
     color: hotpink;
     margin-top: 2rem;
     text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
+    
 `;
 
 const Timer = styled.div `
@@ -51,8 +21,25 @@ const Timer = styled.div `
     margin-top: 5rem;
     color: hotpink;
     margin-top: 5rem;
+    line-height: 6rem;
     text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
+
+    @media only screen and (max-width: 600px) {
+        font-size: 2.5rem;
+        margin: 20px 0 0 10px;
+        padding: 0px;
+    }
 `
+
+const FontSize = styled.div`
+    font-size: 7rem;
+    margin-top: 30px;
+
+    @media only screen and (max-width: 600px) {
+        font-size: 5rem;
+        margin-top: -10px;
+    }
+`;
 
 const CountDown = ({ userInfo }) => {
     let { sleep, smoking, alcohol, restLife } = userInfo
@@ -78,10 +65,6 @@ const CountDown = ({ userInfo }) => {
     } else if (sleep < 7) {
         restLife = restLife - 5
     }
-    // console.log(restLife);
-    // 상세한 데이터 
-    // rest life = 50
-    // 02 2021 16:21:52
 
     const now = new Date();
     let dead = {
@@ -95,9 +78,7 @@ const CountDown = ({ userInfo }) => {
     const { days, hours, minutes, seconds, milliseconds } = dead
 
     const [[day, hrs, mins, secs, mss], setTime] = useState([days, hours, minutes, seconds, milliseconds]);
-    // console.log(days, hours, minutes, seconds, milliseconds)
-    // console.log(day, hrs, mins, secs, mss)
-    // change State
+
     const tick = () => {
         // Time Over
         if (days === 0 && hrs === 0 && mins === 0 && secs === 0 && mss === 0) {
@@ -122,33 +103,32 @@ const CountDown = ({ userInfo }) => {
         return () => clearInterval(timer);
     });
 
-    // console.log(day, hrs, mins, secs, mss);
     // padaytart : 스트링.padaytart(스트링의 길이, 채울 스트링)
     return (
         <ReverseTimer>
-            <Wisemans>
+            <RestLife>
                 {
                     `${day.toString()}일..`
                 }
-            </Wisemans>
+            </RestLife>
             <Timer>
                 {
                     `
                         ${hrs.toString().padStart(2, '0')} 시간        
                         ${mins.toString().padStart(2, '0')} 분        
-                        ${secs.toString().padStart(2, '0')} 초        
+                        ${secs.toString().padStart(2, '0')} 초 `
+                }
+                <br/>
+                <FontSize>
+                {
+                        `
                         ${mss.toString().padStart(2, '0')}
                     `
                 }
+                </FontSize>
             </Timer>
         </ReverseTimer>
     );
 }
-
-// const mapStateToProps = (state) => {
-//     return {
-//         userInfo : state
-//     }
-// }
 
 export default CountDown;

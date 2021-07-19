@@ -36,7 +36,7 @@ const Modal = styled.span`
 `
 
 const Label = styled.div`
-    color: pink;
+    color: #BF78E4;
 `
 
 const SettingModal =  ({userInfo, addUserInfo}) => {
@@ -59,7 +59,6 @@ const SettingModal =  ({userInfo, addUserInfo}) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(JSON.stringify(birth))
         if(nickName === '' || gender === '' || birth.length === 0 || sleep === 0){
             alert("모든 항목을 빠짐없이 기입해주세요 :)")
             return ;
@@ -80,24 +79,6 @@ const SettingModal =  ({userInfo, addUserInfo}) => {
                 smoking: parseInt(smoking),
                 alcohol: parseInt(alcohol)
             })
-
-            // axios.patch('http://localhost:4000/mypage', {
-            //     headers: {
-            //         "Content-Type": "application/json",
-            //         "Authentication": "@@@@@@token"
-            //     },
-            //     withCredentials: true,
-            //     nickName: nickName,
-            //     gender: gender,
-            //     birth: date,
-            //     year: year,
-            //     month: month,
-            //     day: day,
-            //     sleep: parseInt(sleep),
-            //     smoking: parseInt(smoking),
-            //     alcohol: parseInt(alcohol)
-            // })
-            // .catch(e => e)
         }
 
     }
@@ -117,7 +98,6 @@ const SettingModal =  ({userInfo, addUserInfo}) => {
                         <input type='text' placeholder='닉네임 입력' onChange={onChange} value={nickName}></input>
                         {/* <Input /> */}
                         <hr/>
-                        {console.log(nickName)}
 
                         {/* radio : gender */}
                         <div>성별 선택</div>
@@ -126,7 +106,6 @@ const SettingModal =  ({userInfo, addUserInfo}) => {
                         <input type='radio' id='female' name='gender' value='female' checked={gender === 'female'} onChange={onChangeSex}/>
                         <label>여성</label>
                         <hr/>
-                        {console.log(gender)}
 
                         {/* DatePicker : Birth Day */}
                         <div>생년월일 입력</div>
@@ -137,15 +116,11 @@ const SettingModal =  ({userInfo, addUserInfo}) => {
                             
                         /> */}
                         <Calendar setBirth={setBirth} birth={birth}/>
-                        {console.log(birth)}
                         <hr/>
                         {/* Parameter : Sleep, Alchol, Smoking */}
                         <SleepSlider setSleep={setSleep}/>
-                        {console.log(sleep)}
                         <SmokingSlider setSmoking={setSmoking}/>
-                        {console.log(smoking)}
                         <AlcoholSlider setAlcohol={setAlcohol}/>
-                        {console.log(alcohol)}
                         <hr/>
                         <button>완료</button>
                     </form>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -9,20 +9,46 @@ import styled from 'styled-components';
 const Button = styled.div`
     margin-right: 20px;
     border-radius: 4px;
-    background-color: pink;
-    border: outset 2px pink;
+    background-color: #BF78E4;
+    border: outset 2px #BF78E4;
     color: white;
     cursor: pointer;
-    width: 60px;
+    width: 65px;
     height: 40px;
     font-family: 'CookieRunOTF-Bold';
     font-size: 15px;
     font-weight: 900;
     border-radius: 50px;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    text-align: center;
     
     &:hover {
         border: inset 2px white;
-        color: pink;
+        color: #BF78E4;
+        background-color: white;
+    }
+`
+
+const ButtonLogout = styled.div`
+    margin-right: 20px;
+    border-radius: 4px;
+    background-color: #BF78E4;
+    border: outset 2px #BF78E4;
+    color: white;
+    cursor: pointer;
+    width: 65px;
+    height: 40px;
+    font-family: 'CookieRunOTF-Bold';
+    font-size: 15px;
+    font-weight: 900;
+    border-radius: 50px;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    text-align: center;
+    padding-top: 8px;
+    
+    &:hover {
+        border: inset 2px white;
+        color: #BF78E4;
         background-color: white;
     }
 `
@@ -30,15 +56,13 @@ const Button = styled.div`
 const clientId = '709242535333-pl44ipg3ggctlk8ko6hgji008vgbl25s.apps.googleusercontent.com'
 
 const GooLogin = ({ addUserInfo }) => {
-    const [token, setToken] = useState('')
     const [isLogin, setIslogin] = useState(false)
     const history = useHistory()
 
-    const onSuccess = async(res) => {
+    const onSuccess = (res) => {
+        console.log(res)
         if(res.accessToken) {
-            console.log(res.accessToken);
-            console.log('[Login Success] currentUser:', res.profileObj);
-            await axios.post('http://localhost:80/google',{
+            axios.post('http://localhost:80/google',{
               
             }, {
                 headers: {
@@ -47,7 +71,6 @@ const GooLogin = ({ addUserInfo }) => {
                 }, withCredentials: true
             },
             ).then((res) => {
-                console.log('**************',res);
                 setIslogin(!isLogin)
                 const realToken = res.data.access_token
                 addUserInfo({ google: realToken.slice(7) })
@@ -59,45 +82,43 @@ const GooLogin = ({ addUserInfo }) => {
 
 
     const onFailure = (res) => {
-        console.log('[Login failed] res:', res);
+        // console.log('[Login failed] res:', res);
     }
 
     const onLogoutSuccess = (res) => {
-        console.log(res);
-        console.log('Logout made successfully');
-        alert('로그아웃이 완료!');
+
+        alert('로그아웃이 완료되었습니다!');
         setIslogin(!isLogin)
         addUserInfo({ google: null })
         localStorage.clear()
         history.push('/')
     }
 
-    // 구글 로그인되있으면 구글 로그아웃버튼
-    // 카카오로 들어갔으면 카카오 로그아웃버튼 뜨게
-
     return (
-        <Button>
+        <>
             {
                 isLogin === false ?
                         <GoogleLogin
                         clientId={clientId}
-                        buttonText='로그인'
                         onSuccess={onSuccess}
                         onFailure={onFailure}
                         cookiePolicy={'single_host_origin'}
-                        isSignedIn={true} />
+                        isSignedIn={true} 
+                        render={renderProps => (
+                            <Button onClick={renderProps.onClick} disabled={renderProps.disabled}>로그인</Button>
+                          )}
+                        />
                     :
                     <GoogleLogout
                         clientId={clientId}
                         icon={false}
-                        buttonText="로그아웃"
                         onLogoutSuccess={onLogoutSuccess}
-                        style={{
-                            width: 50,
-                            height: 50
-                        }} />
+                        render={renderProps => (
+                            <ButtonLogout onClick={renderProps.onClick} disabled={renderProps.disabled}>로그아웃</ButtonLogout>
+                          )}
+                        />
             }
-        </Button>
+        </>
     );
 };
 

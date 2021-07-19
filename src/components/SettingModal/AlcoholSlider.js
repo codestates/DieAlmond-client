@@ -13,7 +13,7 @@ const Div = styled.div`
   justify-content: center;
   align-items: center;
   margin: auto;
-  color: pink;
+  color: #BF78E4;
 `
 
 const Text = styled.div`

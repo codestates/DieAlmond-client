@@ -1,8 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Progress } from 'semantic-ui-react'
+import styled from 'styled-components';
+
+const Pr = styled.div`
+    display: flex;
+    width: 100%;
+    position: relative;
+    flex-direction: column;
+`;
 
 const ProgressBar = ({userInfo}) => {
-    //props로 수명을 받아서 스테이트로 표시해줌
     
     let { age, sleep, smoking, alcohol, restLife  } = userInfo
 
@@ -36,7 +43,9 @@ const ProgressBar = ({userInfo}) => {
     const per = percentOfLife(age, restLife);
     
     return (
-        <Progress percent={Math.round(per)} active progress color='black'/>
+        <Pr>
+        <Progress percent={Math.round(per)} active progress color='white'/>
+        </Pr>
     );
 };
 

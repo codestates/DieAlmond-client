@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import styled, {keyframes} from 'styled-components';
+import styled from 'styled-components';
+
 
 const AllList = styled.div`
     font-size: medium;
     margin: 25px;
-    width: 500px;
+    max-width: 100%;
     justify-content: center;
     height: 75px;
     font-size: 1.3em;
     padding: 8px;
     border-radius: 15px;
     cursor: pointer;
-    background: pink;
+    background: #BF78E4;
     color: white;
-    border: 2.5px solid pink;
 
     :hover {
-        color: pink;
+        color: #BF78E4;
         transform: scale(1.05);
         transition: all 0.8s ease-out;
         background: white;
+    }
+
+    @media only screen and (max-width: 600px) {
+            width: 350px;
     }
 `;
 
@@ -40,7 +44,6 @@ const AllBucketList = ({ render, userInfo }) => {
             withCredentials: true
         })
             .then(res => {
-                console.log(res)
                 setAllList([...res.data.bucketList]);
             })
             .catch(e => e);
@@ -64,7 +67,7 @@ const AllBucketList = ({ render, userInfo }) => {
     }
 
     return (
-        <div>
+        <section>
             {allList.map((li) => {
                 return (
                     <AllList key={li.id} id={li.id} onClick={handleLike}>
@@ -84,7 +87,7 @@ const AllBucketList = ({ render, userInfo }) => {
                     </AllList>
                 )
             })}
-        </div>
+        </section>
     );
 };
 

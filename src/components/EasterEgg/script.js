@@ -2,8 +2,6 @@ const almond = document.querySelector('#almond')
 const death = document.querySelector('#death')
 const devil = document.querySelector('#devil')
 
-console.log(almond);
-
 const jump = () => {
     if(almond.classList !== "jump") {
         almond.classList.add("jump")

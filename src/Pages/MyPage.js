@@ -1,44 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import styled, {createGlobalStyle} from 'styled-components';
 import Calendar from '../components/SettingModal/Calendar'
 import SleepSlider from '../components/SettingModal/SleepSlider';
 import SmokingSlider from '../components/SettingModal/SmokingSlider'
 import AlcoholSlider from '../components/SettingModal/AlcoholSlider'
 import { connect } from 'react-redux';
 import { actionCreators } from '../store';
-import { Route, Router } from 'react-router';
-import MainPage from './MainPage';
 import axios from 'axios';
-import { Component } from 'react';
 import { useHistory } from 'react-router-dom';
 import font from '../font.css'
-import { GoogleLogin, GoogleLogout, useGoogleLogout } from 'react-google-login';
+import star from "../img/main.jpg"
 
-// const Modalcontainer = styled.div`
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     flex-direction: column;
-//     position: fixed;
-//     top: 0;
-//     left: 0;
-//     right: 0;
-//     bottom: 0;
-//     background: #00000080;
-//     z-index: 10000;
-// `
-// const Modal = styled.span`
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     flex-direction: column;
-//     position: fixed;
-//     width: 350px;
-//     height: 500px;
-//     background: white;
-//     z-index: 10000;
-//     border-radius: 5px;
-// `
+const Global = createGlobalStyle`
+    body {
+        height: 100%;
+        margin: 0;
+        background: no-repeat url(${star});
+        background-size: cover; 
+    }
+    html {
+        height: 100%;
+    }
+   
+`;
 
 const Container = styled.div`
     padding: 20px;
@@ -54,7 +38,7 @@ const Container = styled.div`
 const Title = styled.h1`
     font-size: 2rem;
     text-align: center;
-    color: pink;
+    color: #BF78E4;
     font-family: 'CookieRun-Regular';
     text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
 `;
@@ -62,11 +46,11 @@ const Title = styled.h1`
 const Input = styled.input`
     width: 200px;
     height: 3rem;
-    color: pink;
+    color: #BF78E4;
     margin: 1rem;
     font-size: 1.5rem;
     text-shadow: -1.5px 0 black, 0 1.5px black, 1.5px 0 black, 0 -1.5px black;
-    border: solid 5px pink;
+    border: solid 5px #BF78E4;
     border-radius: 5px;
 
     :focus {
@@ -92,20 +76,20 @@ const Radio = styled.input`
 
 const Div = styled.div`
     font-weight: bold;
-    color: pink;
+    color: #BF78E4;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 `
 
 const Span = styled.span`
     font-weight: bold;
-    color: pink;
+    color: #BF78E4;
     text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 `
 
 const Button = styled.button`
     margin: 30px;
     text-align:center;
-    background:pink;
+    background:#BF78E4;
     color:white;
     border:none;
     position:relative;
@@ -123,13 +107,13 @@ const Button = styled.button`
 
     :hover{
         background: white;
-        color: pink;
-        border: solid 2px pink;
+        color: #BF78E4;
+        border: solid 2px #BF78E4;
 }
 `
 
 const Form = styled.form`
-    border: 3px solid pink;
+    border: 3px solid #BF78E4;
     padding: 3rem;
     border-radius: 60px;
 `
@@ -157,7 +141,6 @@ const MyPage = ({ userInfo, addUserInfo, resetStore }) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(JSON.stringify(birth))
         if (nickname === '' || gender === '' || birth.length === 0 || sleep === 0) {
             return alert("모든 항목을 빠짐없이 기입해주세요 :)")
         } else {
@@ -211,8 +194,6 @@ const MyPage = ({ userInfo, addUserInfo, resetStore }) => {
                     .then((res) => {
                         addUserInfo({ restLife: parseInt(res.data.life) })
                         alert('변경 완료 :)')
-                        // console.log(res)
-                        // console.log(userInfo)
                         localStorage.setItem("info", JSON.stringify({
                             'nickname': nickname,
                             'gender': gender,
@@ -251,7 +232,6 @@ const MyPage = ({ userInfo, addUserInfo, resetStore }) => {
                     .then((res) => {
                         addUserInfo({ restLife: parseInt(res.data.life) })
                         alert('변경을 완료했습니다 :)')
-                        // console.log(res)
                         localStorage.setItem("info", JSON.stringify({
                             'nickname': nickname,
                             'gender': gender,
@@ -301,6 +281,7 @@ const MyPage = ({ userInfo, addUserInfo, resetStore }) => {
 
     return (
         <Container>
+            <Global/>
             <Form onSubmit={onSubmit}>
                 <Title>정보를 입력해서 기대 수명을 확인해보세요 🙌</Title>
                 {/* input text */}
@@ -308,9 +289,6 @@ const MyPage = ({ userInfo, addUserInfo, resetStore }) => {
                 <Input type='text' placeholder='닉네임을 입력하세요.' onChange={onChange} value={nickname}></Input>
                 {/* <Input /> */}
                 <hr />
-                {console.log(userInfo)}
-                {console.log(nickname)}
-
                 {/* radio : gender */}
                 <Div>성별 선택</Div>
                 <Radio type='radio' id='male' name='gender' value='male' checked={gender === 'male'} onChange={onChangeSex} />
@@ -318,25 +296,13 @@ const MyPage = ({ userInfo, addUserInfo, resetStore }) => {
                 <Radio type='radio' id='female' name='gender' value='female' checked={gender === 'female'} onChange={onChangeSex} />
                 <Span>여성</Span>
                 <hr />
-                {console.log(gender)}
 
-                {/* DatePicker : Birth Day */}
                 <Div>생년월일 입력</Div>
-                {/* <DatePicker 
-                            selected={startDate} 
-                            onChange={(date) => setStartDate(date)} 
-                            dateFormat = "yyyy.MM.dd"
-                        /> */}
                 <Calendar setBirth={setBirth} birth={birth} />
-                {console.log(birth)}
                 <hr />
-                {/* Parameter : Sleep, Alchol, Smoking */}
                 <SleepSlider setSleep={setSleep} />
-                {console.log(sleep)}
                 <SmokingSlider setSmoking={setSmoking} />
-                {console.log(smoking)}
                 <AlcoholSlider setAlcohol={setAlcohol} />
-                {console.log(alcohol)}
                 <hr />
                 <Button>완료</Button>
                 {typeof (userInfo.nickname) === 'string' ?
